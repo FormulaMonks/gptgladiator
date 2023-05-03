@@ -15,3 +15,8 @@ testpaths = ["tests"]
 [tool.coverage.run]
 branch = true
 source = ["gladiator"]
+
+[tool.setuptools.packages.find]
+include = ["gladiator.static", "gladiator.templates"]
+exclude = ["instance", "tests*"]
+namespaces = false
