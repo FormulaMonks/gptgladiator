@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 
+<h1>{% block title %}Home{% endblock %}</h1>
+
 {% block header %}
-    <h1>{% block title %}Home{% endblock %}</h1>
+    <p>
+        Type a prompt below, the app will ask Open AI via a Chat Completion to answer the question 4 times. The
+        responses are returned with a level of confidence between 1 and 100 and the answer(s) with the highest
+        confidence are highlighted.
+    </p>
 {% endblock %}
 
 {% block content %}
