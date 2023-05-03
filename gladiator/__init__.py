@@ -1,8 +1,11 @@
 import os
 
+import dotenv
 from flask import Flask
 
 from . import gladiator
+
+dotenv.load_dotenv()
 
 
 def create_app(test_config=None):
