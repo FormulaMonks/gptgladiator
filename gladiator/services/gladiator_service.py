@@ -1,3 +1,4 @@
+import ast
 import json
 import os
 from typing import List
@@ -38,9 +39,19 @@ mock_response = '''
 '''
 
 
+def parse_json(json_response: str):
+    try:
+        return json.loads(json_response)
+    except Exception as e:
+        print(f'Error parsing the json response. \n'
+              f'{e}\n'
+              f'Defaulting to literal eval.')
+        return ast.literal_eval(json_response)
+
+
 class GladiatorService(GladiatorInterface):
     debug = True
-    mock_api = False
+    mock_api = True
 
     def __init__(self):
         openai.api_key = os.environ.get('OPENAI_API_KEY')
@@ -58,7 +69,7 @@ class GladiatorService(GladiatorInterface):
             else:
                 return success, error, []
 
-        json_response = json.loads(json_response)
+        json_response = parse_json(json_response)
         replies = [Reply(r['id'], r['answer'], r['confidence']) for r in json_response['replies']]
         return True, '', replies
 
