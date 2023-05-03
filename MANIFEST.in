@@ -1,0 +1,3 @@
+graft gladiator/static
+graft gladiator/templates
+global-exclude *.pyc
