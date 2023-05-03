@@ -6,7 +6,7 @@ from typing import List
 import openai as openai
 import tiktoken as tiktoken
 
-from gladiator.helpers.prompts import openai_prompt
+from gladiator.prompts import openai_prompt
 from gladiator.models.reply import Reply
 from gladiator.models.gpt_model import GptModel
 from gladiator.services.gladiator_interface import GladiatorInterface
