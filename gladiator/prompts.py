@@ -7,7 +7,7 @@ Reply to the question above. Return your response in JSON with the following str
    {{
      "id": 1,
      "answer": "First answer to the question",
-     "confidence": 50.43,
+     "confidence": 50.43
    }},
    {{
     "id": 2,
