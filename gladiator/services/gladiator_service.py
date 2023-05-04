@@ -51,8 +51,8 @@ def parse_json(json_response: str):
 
 
 class GladiatorService(GladiatorInterface):
-    debug = strtobool(os.environ.get('DEBUG'))
-    mock_api = strtobool(os.environ.get('MOCK_API'))
+    debug = strtobool(os.environ.get('DEBUG', 'False'))
+    mock_api = strtobool(os.environ.get('MOCK_API', 'False'))
 
     def __init__(self):
         openai.api_key = os.environ.get('OPENAI_API_KEY')
