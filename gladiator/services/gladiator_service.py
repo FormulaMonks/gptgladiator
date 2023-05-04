@@ -33,7 +33,7 @@ mock_response = '''
    {
      "id": 4,
      "answer": "Some people might consider cognitive psychologist Noam Chomsky as a contributing figure in AI's development.",
-     "confidence": 60.0
+     "confidence": 95.0
    }
  ]
 }

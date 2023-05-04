@@ -22,12 +22,15 @@ def create():
         if error is not None:
             flash(error)
         else:
-            best_id = 0
+            highest_confidence = 0
             success, message, replies = gladiator.run(prompt)
             if not success:
                 flash(message)
             else:
-                best_id = sorted(replies, key=lambda r: r.confidence, reverse=True)[0].number
-            return render_template('index.html', prompt=prompt, prompt_replies=replies, best_id=best_id)
+                highest_confidence = sorted(replies, key=lambda r: r.confidence, reverse=True)[0].confidence
+            return render_template('index.html',
+                                   prompt=prompt,
+                                   prompt_replies=replies,
+                                   highest_confidence=highest_confidence)
 
     return render_template('index.html')

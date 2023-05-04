@@ -20,7 +20,7 @@
 
     <div class="replies">
         {% for reply in prompt_replies %}
-            <article class="reply {{ 'best' if best_id == reply['number'] }}">
+            <article class="reply {{ 'best' if highest_confidence == reply['confidence'] }}">
                 <header>
                     <div>
                         <h1>{{ reply['confidence'] }}%</h1>
