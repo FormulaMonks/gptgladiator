@@ -79,15 +79,14 @@ nav ul li a, nav ul li span, header .action {
 .replies {
     display: flex;
     flex-wrap: wrap;
-    border: 1px solid rebeccapurple;
 }
 
 .reply {
     display: flex;
     flex: 1;
-    flex-basis: 25%;
+    flex-basis: 33%;
     flex-direction: column;
-    max-width: 23.5%;
+    max-width: 32.3%;
     background-color: #eee;
     margin: 3px;
     padding: 2px 3px;

@@ -21,7 +21,7 @@ class GladiatorService(GladiatorInterface):
         openai.api_key = os.environ.get('OPENAI_API_KEY')
         self.chat_completion_model = GptModel('gpt-4', 2048)
         self.completion_model = GptModel('text-davinci-003', 4097)
-        self.n = 4
+        self.n = 3
 
     def run(self, prompt: str) -> (bool, str, List[Reply]):
         # TODO: Enrich the prompt a bit?
@@ -76,7 +76,10 @@ class GladiatorService(GladiatorInterface):
         if self.mock_api:
             json_response = parse_json(mock_grading_response)
             for _, r in enumerate(json_response):
-                replies[r['idx']].confidence = random.randint(1, 100)
+                key = r['idx']
+                if key not in replies:
+                    continue
+                replies[key].confidence = random.randint(1, 100)
         else:
             messages.append({"role": "user", "content": grading_prompt})
             response, err = self._call_chat_completion_api(messages)
