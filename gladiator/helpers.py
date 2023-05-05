@@ -41,28 +41,136 @@ mock_replies = [
     {
         "choices": [
             {
-                'text': "German physicist Wilhelm Röntgen is credited with the discovery of X-Rays in 1895."
+                "text": """
+@bp.route('/create', methods=('GET', 'POST'))
+@login_required
+def create():
+    if request.method == 'POST':
+        title = request.form['title']
+        body = request.form['body']
+        error = None
+
+        if not title:
+            error = 'Title is required.'
+
+        if error is None:
+            db = get_db()
+            db.execute(
+                'INSERT INTO post (title, body, author_id)'
+                ' VALUES (?, ?, ?)',
+                (title, body, g.user['id'])
+            )
+            db.commit()
+            return redirect(url_for('blog.index'))
+
+    return render_template('blog/create.html')
+    
+    if error:
+        flash(error)
+                """
             }
         ]
     },
     {
         "choices": [
             {
-                'text': "The X-rays were discovered by German physicist Wilhelm Röntgen in 1895."
+                "text": """
+@bp.route('/create', methods=('GET', 'POST'))
+@login_required
+def create():
+    if request.method == 'POST':
+        error = validate_form_data(request.form)
+
+        if error is not None:
+            flash(error)
+        else:
+            save_form_data_to_db(request.form, g.user['id'])
+            return redirect(url_for('blog.index'))
+
+    return render_template('blog/create.html')
+
+
+def validate_form_data(form):
+    title = form['title']
+    error = None
+
+    if not title:
+        error = 'Title is required.'
+
+    return error
+
+
+def save_form_data_to_db(form, user_id):
+    title = form['title']
+    body = form['body']
+
+    db = get_db()
+    db.execute(
+        'INSERT INTO post (title, body, author_id)'
+        ' VALUES (?, ?, ?)',
+        (title, body, user_id)
+    )
+    db.commit()
+                """
             }
         ]
     },
     {
         "choices": [
             {
-                'text': "The German physicist Wilhelm Conrad Röntgen is credited with the discovery of X-Rays in 1895."
+                "text": """
+@bp.route('/create', methods=('GET', 'POST'))
+@login_required
+def create():
+    error = None
+    if request.method == 'POST':
+        title = request.form['title'];
+        body = request.form['body'];
+        if not title:
+            error = 'Title is required.'
+        if error is None:
+            db = get_db()
+            db.execute(
+                'INSERT INTO post (title, body, author_id)'
+                ' VALUES (?, ?, ?)',
+                (title, body, g.user['id'])
+            )
+            db.commit()
+            return redirect(url_for('blog.index'))
+    return render_template('blog/create.html')                
+                """
             }
         ]
     },
     {
         "choices": [
             {
-                'text': "In 1895, German physicist Wilhelm Conrad Röntgen discovered X-rays."
+                "text": """
+@bp.route('/create', methods=('GET', 'POST'))
+@login_required
+def create():
+    if request.method == 'POST':
+        title = request.form['title']
+        body = request.form['body']
+        error = None
+
+        if not title:
+            error = 'Title is required.'
+
+        if error is not None:
+            flash(error)
+        else:
+            db = get_db()
+            db.execute(
+                'INSERT INTO post (title, body, author_id)'
+                ' VALUES (?, ?, ?)',
+                (title, body, g.user['id'])
+            )
+            db.commit()
+            return redirect(url_for('blog.index'))
+
+    return render_template('blog/create.html')
+                """
             }
         ]
     }
@@ -100,19 +208,23 @@ mock_grading_response = '''
 [
   {
     "idx": 1,
-    "sc": 95.0
+    "sc": 95.0,
+    "exp": "Better usage of the get method for form data retrieval, simplified condition checks, and preserved original functionality."
   },
   {
     "idx": 2,
-    "sc": 90.0
+    "sc": 90.0,
+    "exp": "Changed condition checks but moved flash outside, which might lead to flashing even in GET requests, which is not desired."
   },
   {
     "idx": 3,
-    "sc": 95.0
+    "sc": 95.0,
+    "exp": "Minimal changes from the original code, focused on simplifying condition checks, maintained functionality."
   },
   {
     "idx": 4,
-    "sc": 59.23
+    "sc": 59.23,
+    "exp": "Minimal changes from the original code, focused on simplifying condition checks, maintained functionality."
   }
 ]
 '''
