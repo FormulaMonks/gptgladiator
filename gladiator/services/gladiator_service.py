@@ -65,7 +65,7 @@ class GladiatorService(GladiatorInterface):
 
         return replies, None
 
-    def _grade_answers(self, messages, replies) -> Optional[str]:
+    def _grade_answers(self, messages, replies: dict[int, Reply]) -> Optional[str]:
         """
         Grades the given answers
         :param messages: the messages on the chat completion context
@@ -76,10 +76,11 @@ class GladiatorService(GladiatorInterface):
         if self.mock_api:
             json_response = parse_json(mock_grading_response)
             for _, r in enumerate(json_response):
-                key = r['idx']
+                key = r["idx"]
                 if key not in replies:
                     continue
                 replies[key].confidence = random.randint(1, 100)
+                replies[key].explanation = r["exp"]
         else:
             messages.append({"role": "user", "content": grading_prompt})
             response, err = self._call_chat_completion_api(messages)
@@ -89,7 +90,8 @@ class GladiatorService(GladiatorInterface):
 
             json_response = parse_json(response)
             for _, r in enumerate(json_response):
-                replies[r['idx']].confidence = r['sc']
+                replies[r["idx"]].confidence = r["sc"]
+                replies[r["idx"]].explanation = r["exp"]
 
         return None
 
