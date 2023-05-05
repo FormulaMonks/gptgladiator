@@ -28,9 +28,6 @@
                 </header>
                 <p class="body">{{ reply['answer'] }}</p>
             </article>
-            {% if not loop.last %}
-                <hr>
-            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}

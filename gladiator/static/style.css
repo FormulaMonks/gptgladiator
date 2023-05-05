@@ -78,12 +78,18 @@ nav ul li a, nav ul li span, header .action {
 
 .replies {
     display: flex;
+    flex-wrap: wrap;
+    border: 1px solid rebeccapurple;
 }
 
 .reply {
+    display: flex;
     flex: 1;
+    flex-basis: 25%;
+    flex-direction: column;
+    max-width: 23.5%;
     background-color: #eee;
-    margin: 2px 3px;
+    margin: 3px;
     padding: 2px 3px;
     border: 1px solid #ccc;
 }
@@ -111,7 +117,10 @@ nav ul li a, nav ul li span, header .action {
 }
 
 .reply .body {
-    white-space: pre-line;
+    white-space: pre;
+    font-family: monospace;
+    overflow-x: auto;
+    height: 100%;
 }
 
 .content:last-child {
