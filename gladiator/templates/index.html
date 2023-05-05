@@ -23,10 +23,15 @@
             <article class="reply {{ 'best' if highest_confidence == reply['confidence'] }}">
                 <header>
                     <div>
-                        <h1>{{ reply['confidence'] }}%</h1>
+                        <div class="explanation">
+                            <p class="rate">Confidence: {{ reply['confidence'] }}%</p>
+                            <hr>
+                            <p>Because: {{ reply['explanation'] }}</p>
+                        </div>
                     </div>
                 </header>
                 <p class="body">{{ reply['answer'] }}</p>
+
             </article>
         {% endfor %}
     </div>
