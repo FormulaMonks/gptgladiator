@@ -78,7 +78,7 @@ nav ul li a, nav ul li span, header .action {
 
 .replies {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .reply {
@@ -121,6 +121,19 @@ nav ul li a, nav ul li span, header .action {
     overflow-x: auto;
     height: 100%;
 }
+
+.reply .explanation {
+    font-size: small;
+    color: bisque;
+    background-color: #377ba8;
+    padding: 5px;
+    font-style: italic;
+}
+
+.reply .explanation .rate {
+    text-align: right;
+}
+
 
 .content:last-child {
     margin-bottom: 0;
