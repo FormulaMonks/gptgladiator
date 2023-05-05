@@ -69,19 +69,31 @@ mock_replies = [
 ]
 
 grading_prompt = """
-Evaluate your previous responses. Assign each one of them a confidence score between 1 and 100, 1 meaning 
-completely unknown, false or uncertain and 100 meaning completely true, well-known or certain.
+Evaluate your previous responses using the following logic:
+
+- Pick the best answer considering how well does it fit the original prompt
+- Assign a score to the one you selected as the best answer
+- Then grade the other answers with a score relative the one with the best score 
+
 Return your response in JSON following the format below:
 [
   {
     "idx": 1,
-    "sc": 84.57
+    "sc": 84.57,
+    "exp": "Short explanation of your reasoning"
   },
   {
     "idx": 2,
-    "sc": 95.63
+    "sc": 95.63,
+    "exp": "Another explanation"
   }
 ]
+
+The sc field is the score for each answer. It shall be a float number with two decimals between 1.00 and 100.00 
+(both included) where, 1  means your confidence on the score you provided is very low, the reply is unknown or uncertain
+ and, 100 means your confidence is very high or the reply is well-known.
+
+The exp field is a short explanation about your reasoning. Keep it under 100 words when possible.
 """
 
 mock_grading_response = '''
