@@ -64,6 +64,9 @@ $ flask --app gladiator run <--debug>
 
 Type a prompt and click **Go**
 
+![image](https://user-images.githubusercontent.com/8228671/236520814-81d8b733-7ec0-4512-9d98-a78982a573e2.png)
+
+
 Enjoy!
 
 
