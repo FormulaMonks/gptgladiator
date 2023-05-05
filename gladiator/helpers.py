@@ -1,3 +1,11 @@
+import ast
+import json
+from typing import List
+
+import tiktoken
+
+from gladiator.models.reply import Reply
+
 openai_prompt = '''Given this question: {question}
 
 Reply to the question above. Return your response in JSON with the following structure:
@@ -96,3 +104,24 @@ mock_grading_response = '''
   }
 ]
 '''
+
+
+def parse_json(json_response: str) -> dict:
+    try:
+        return json.loads(json_response)
+    except Exception as e:
+        print(f'Error parsing the json response. \n'
+              f'{e}\n'
+              f'Defaulting to literal eval.')
+        return ast.literal_eval(json_response)
+
+
+def save_reply(idx, text, messages: List[dict], replies: dict) -> None:
+    messages.append({"role": "assistant", "content": f"{idx + 1}. {text.strip()}"})
+    replies[idx + 1] = Reply(idx + 1, text)
+
+
+def num_tokens_from_string(string: str, model_name: str) -> int:
+    encoding = tiktoken.encoding_for_model(model_name)
+    num_tokens = len(encoding.encode(string))
+    return num_tokens

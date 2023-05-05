@@ -1,27 +1,16 @@
-import ast
-import json
+import concurrent.futures
 import os
 import random
 from distutils.util import strtobool
-from typing import List, Optional
+from typing import List, Optional, Any, Iterator
 
 import openai as openai
-import tiktoken as tiktoken
 
-from gladiator.helpers import mock_replies, grading_prompt, mock_grading_response
-from gladiator.models.reply import Reply
+from gladiator.helpers import mock_replies, grading_prompt, mock_grading_response, save_reply, parse_json, \
+    num_tokens_from_string
 from gladiator.models.gpt_model import GptModel
+from gladiator.models.reply import Reply
 from gladiator.services.gladiator_interface import GladiatorInterface
-
-
-def parse_json(json_response: str):
-    try:
-        return json.loads(json_response)
-    except Exception as e:
-        print(f'Error parsing the json response. \n'
-              f'{e}\n'
-              f'Defaulting to literal eval.')
-        return ast.literal_eval(json_response)
 
 
 class GladiatorService(GladiatorInterface):
@@ -31,7 +20,7 @@ class GladiatorService(GladiatorInterface):
     def __init__(self):
         openai.api_key = os.environ.get('OPENAI_API_KEY')
         self.chat_completion_model = GptModel('gpt-4', 2048)
-        self.completion_model = GptModel('text-davinci-003', 4000)
+        self.completion_model = GptModel('text-davinci-003', 4097)
         self.n = 4
 
     def run(self, prompt: str) -> (bool, str, List[Reply]):
@@ -55,20 +44,25 @@ class GladiatorService(GladiatorInterface):
 
         return True, '', replies.values()
 
+    def _call_api_concurrently(self, user_question: List[str], max_active_tasks: int) -> Iterator[Any]:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=max_active_tasks) as executor:
+            results = executor.map(self._call_completion_api, user_question)
+        return results
+
     def _get_answers(self, n: int, user_question: str, messages: List) -> (List[Reply], str):
         replies = {}
-        # Call the API n times. TODO: make these in parallel
-        for i in range(n):
-            if self.mock_api:
+        if self.mock_api:
+            for i in range(n):
                 reply_text, err = mock_replies[i]["choices"][0]["text"], None
-            else:
-                reply_text, err = self._call_completion_api(user_question)
+                if err:
+                    return [], err
+                save_reply(i, reply_text, messages, replies)
+        else:
+            for i, (reply_text, err) in enumerate(self._call_api_concurrently([user_question] * n, n)):
+                if err:
+                    return [], err
+                save_reply(i, reply_text, messages, replies)
 
-            if err:
-                return [], err
-
-            messages.append({"role": "assistant", "content": f"{i + 1}. {reply_text.strip()}"})
-            replies[i + 1] = Reply(i + 1, reply_text)
         return replies, None
 
     def _grade_answers(self, messages, replies) -> Optional[str]:
@@ -103,7 +97,7 @@ class GladiatorService(GladiatorInterface):
         :return: a tuple (response, error)
         """
 
-        current_tokens_used = self._num_tokens_from_string(prompt, self.completion_model.name)
+        current_tokens_used = num_tokens_from_string(prompt, self.completion_model.name)
         response_tokens = self.completion_model.tokens - current_tokens_used
 
         if self.debug:
@@ -117,7 +111,7 @@ class GladiatorService(GladiatorInterface):
             request = {
                 "model": self.completion_model.name,
                 "temperature": 1,
-                "max_tokens": self.completion_model.tokens,
+                "max_tokens": response_tokens,
                 "prompt": prompt,
             }
             response = openai.Completion.create(**request)
@@ -167,11 +161,5 @@ class GladiatorService(GladiatorInterface):
     def _count_total_tokens_in_messages(self, messages) -> int:
         num_tokens = 0
         for message in messages:
-            num_tokens += self._num_tokens_from_string(message['content'], self.chat_completion_model.name)
-        return num_tokens
-
-    @staticmethod
-    def _num_tokens_from_string(string: str, model_name: str) -> int:
-        encoding = tiktoken.encoding_for_model(model_name)
-        num_tokens = len(encoding.encode(string))
+            num_tokens += num_tokens_from_string(message['content'], self.chat_completion_model.name)
         return num_tokens
