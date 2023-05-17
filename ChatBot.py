@@ -22,21 +22,11 @@ class ChatBot:
             print(f"Tokens remaining for response: {response_tokens}")
             print("------------ CONTEXT SENT TO AI ---------------")
 
-        if response_tokens < 1000:
-            print("Not enough tokens for response! Removing stuff...retrying...")
-
-            self.messages.pop(1)  # remove some content
-            self.messages.pop(-1)  # remove the current content, since it gets reapplied anyway
-            self.run(prompt)
-
         result = ""
         try:
             result = get_completion(self.model, self.messages)
         except Exception as e:
             print("Error: ", e)
-            time.sleep(2)
-            self.messages.pop(-1)  # remove the current content, since it gets reapplied anyway
-            self.run(prompt)
 
         self.messages.append({"role": "assistant", "content": result})
 
@@ -54,3 +44,5 @@ def num_tokens_from_string(string: str, model_name: str) -> int:
     encoding = tiktoken.encoding_for_model(model_name)
     num_tokens = len(encoding.encode(string))
     return num_tokens
+
+
