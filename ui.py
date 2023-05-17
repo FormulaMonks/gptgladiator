@@ -1,9 +1,11 @@
-def drafts_template(i, content):
-    return f"<div class='draft'><div><b>Draft {i + 1}</b></div>{content['content']}</div>"
+def drafts_template(i, response, max_line_height):
+    return f"<div class='draft' style='height:{max_line_height}px;'><div><b>Draft {i + 1}</b></div><div><pre><code>{response['content']}</code></pre></div></div>"
+
 
 def grades_template(score, explanation, is_winner):
-    class_name = 'winner' if is_winner else ''
+    class_name = "winner" if is_winner else ""
     return f"<div class='{class_name} score'><div><b>Score {score}</b></div>{explanation}</div>"
+
 
 stylesheet = """
 <style>
