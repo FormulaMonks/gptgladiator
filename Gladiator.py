@@ -2,7 +2,6 @@ import concurrent.futures
 import os
 from distutils.util import strtobool
 from typing import List, Optional, Any, Iterator
-from reply import Reply
 import openai as openai
 from gpt_model import GptModel
 import prompts
@@ -25,7 +24,7 @@ class GladiatorService():
 
 
     def process(self, prompt):
-        chatbot = ChatBot(self.generate_model)
+        chatbot = ChatBot(self.generate_model, [])
         chatbot.run(prompt)
         return chatbot.messages[-1]
 
@@ -41,7 +40,7 @@ class GladiatorService():
         print(f"running: {self.n} times")
         prompts = [prompt] * self.n
         self.drafts = self.concurrent_requests(prompts) if not self.mock_responses else mocks.mock_responses
-        print("drafts = ", self.drafts)
+        #print("drafts = ", self.drafts)
         return self.drafts
 
 
@@ -55,18 +54,16 @@ class GladiatorService():
             response =  gradingbot.messages[-1]['content'] 
 
         grades_json = parse_json(response)
-        print("grades = ", grades_json)
+        #print("grades = ", grades_json)
         
         return grades_json
 
 
     def select_winner(self, grades_json):
-        print(len(grades_json))
-        
         winning_index = max(range(len(grades_json)), key=lambda i: grades_json[i]['score'])
         print("winning_index = ", winning_index)
         winning_content = self.drafts[winning_index]['content']
-        print("winning content = ", winning_content)
+        #print("winning content = ", winning_content)
         return winning_index, winning_content
     
 
