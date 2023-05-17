@@ -1,4 +1,4 @@
-default_question = """refactor the following code:
+refactor_code = """refactor the following code and explain why you did so. Think out loud.:
 
     const checkUserProfilesComplete = async (userIds) =>
     (
@@ -11,6 +11,11 @@ default_question = """refactor the following code:
     )
 """
 
+second = """2nd
+"""
+
+third = """3rd
+"""
 
 
 

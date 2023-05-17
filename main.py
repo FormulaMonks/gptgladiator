@@ -31,9 +31,8 @@ def select_winner(grades_json, columns):
     with st.container():
         st.write(winning_content)
 
-def generate_drafts(gladiator):
+def generate_drafts(gladiator, prompt):
     with st.spinner("Generating Drafts..."):
-        
         responses = gladiator.generate_drafts(prompt) 
         return responses
 
@@ -43,13 +42,25 @@ dotenv.load_dotenv()
 st.set_page_config(layout="wide")
 st.markdown(stylesheet, unsafe_allow_html=True)
 st.title("Gladiator: May the best response win")
-prompt = st.text_area("Enter a prompt and get the best answer", defaults.default_question, height=300)
+
+col1, col2, col3, col4 = st.columns(4)
+with col1:
+    option = st.selectbox('(optional) Choose an example prompt...',('Refactor Code', 'second', 'third'))
+
+if option == 'Refactor Code':
+    example = defaults.refactor_code
+elif option == 'second':
+    example = defaults.second
+else: 
+    example = defaults.third
+    
+prompt = st.text_area("Enter a prompt and get the best answer...", example, height=300)
 
 
 if st.button("Generate best answer"):
     gladiator = GladiatorService()
     try:
-        responses = generate_drafts(gladiator)
+        responses = generate_drafts(gladiator, prompt)
         grades_json, columns = grade_drafts(gladiator, responses)
         select_winner(grades_json, columns)
     except Exception as e:
