@@ -13,36 +13,43 @@ class ChatBot:
     def run(self, prompt):
         self.messages.append({"role": "user", "content": prompt})
 
-        current_tokens_used = count_total_tokens_in_messages(self.messages, self.model)
+        current_tokens_used = self.count_total_tokens_in_messages(self.messages)
         response_tokens = self.model.tokens - current_tokens_used
 
-        if self.debug:
-            print(f"Token limit: {self.model.tokens}")
-            print(f"Send Token Count: {current_tokens_used}")
-            print(f"Tokens remaining for response: {response_tokens}")
-            print("------------ CONTEXT SENT TO AI ---------------")
+        print(f"Token limit: {self.model.tokens}")
+        print(f"Send Token Count: {current_tokens_used}")
+        print(f"Tokens remaining for response: {response_tokens}")
 
-        result = ""
+        if response_tokens < 1000:
+            raise ValueError(f"Too many tokens in the input. Max is {self.model.tokens} and you entered {current_tokens_used}. You must reserve 1000 tokens for the response yet you only have {response_tokens}. Remove content from your input and retry.")
+        
         try:
-            result = get_completion(self.model, self.messages)
+            result = self.get_completion(self.messages)
+            self.messages.append({"role": "assistant", "content": result})
         except Exception as e:
-            print("Error: ", e)
+            print("Error in chatbot: ", e)    
 
-        self.messages.append({"role": "assistant", "content": result})
+    def get_completion(self, messages):
+        response = openai.ChatCompletion.create(
+            model=self.model.name,
+            messages=messages
+        )
+        return response.choices[0].message.content.strip()
 
-def get_completion(model, messages):
-    response = openai.ChatCompletion.create(
-        model=model.name,
-        messages=messages
-    )
-    return response.choices[0].message.content.strip()
+    def count_total_tokens_in_messages(self, messages) -> int:
+        sum = 0
+        print("lenght of messages = ", len(messages))
+        for message in messages:
+            print("message = ", message)
+            count = self.num_tokens_from_string(message)
+            print(count)
+            sum += count
+        return sum
+        #return sum(self.num_tokens_from_string(message) for message in messages)
 
-def count_total_tokens_in_messages(messages, model) -> int:
-    return sum(num_tokens_from_string(message['content'], model.name) for message in messages)
-
-def num_tokens_from_string(string: str, model_name: str) -> int:
-    encoding = tiktoken.encoding_for_model(model_name)
-    num_tokens = len(encoding.encode(string))
-    return num_tokens
+    def num_tokens_from_string(self, string: str) -> int:
+        encoding = tiktoken.encoding_for_model(self.model.name)
+        num_tokens = len(encoding.encode(str(string)))
+        return num_tokens
 
 

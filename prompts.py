@@ -10,6 +10,19 @@ def make_grading_prompt(input):
     - Pick the best answer considering how well does it fit the original prompt
     - Assign a score to the one you selected as the best answer
     - Then grade the other answers with a score relative the one with the best score 
+    
+    Take into account:
+    It is accurate and factual.
+    It is comprehensive and informative.
+    It is clear and easy to understand.
+    It is relevant to the request.
+    It is creative and engaging.
+    The quality of the language used.
+    The accuracy of the information.
+    The relevance of the information to the request.
+    The clarity and conciseness of the writing.
+    The creativity and engagement of the writing.
+
 
     Return your response with Valid, properly escaped JSON only, with this format and 1 item per each item reviewed. It means if there are 3 items to be graded the repsonse needs 3 items with grades:
     {{
