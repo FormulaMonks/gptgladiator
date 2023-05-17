@@ -13,7 +13,7 @@ def get_max_line_height(responses):
         content = response["content"]
         num_lines = len(content.split("\n"))
         max_num_lines = max(max_num_lines, num_lines)
-    return 40 * num_lines
+    return 35 * max_num_lines
 
 
 def grade_drafts(gladiator, responses):
@@ -62,6 +62,7 @@ st.markdown(
     """
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-python.min.js"></script>
         """,
     unsafe_allow_html=True,
 )

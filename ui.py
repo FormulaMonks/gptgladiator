@@ -1,5 +1,5 @@
 def drafts_template(i, response, max_line_height):
-    return f"<div class='draft' style='height:{max_line_height}px;'><div><b>Draft {i + 1}</b></div><div><pre><code>{response['content']}</code></pre></div></div>"
+    return f"<div class='draft' style='height:{max_line_height}px;'><div><b>Draft {i + 1}</b></div><div><pre><code class='language-python'>{response['content']}</code></pre></div></div>"
 
 
 def grades_template(score, explanation, is_winner):
