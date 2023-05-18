@@ -10,7 +10,7 @@ dotenv.load_dotenv()
 st.set_page_config(layout="wide")
 st.markdown(stylesheet, unsafe_allow_html=True)
 st.title("Gladiator: May the best response win")
-st.write("This demonstrates ")
+st.write("This is a demo of the gladiator library. It will generate multiple draft responses and then use a second model to judge the answers and pick a winner, which is then returned to the user.")
 
 col1, col2, col3, col4 = st.columns(4)
 with col1:
