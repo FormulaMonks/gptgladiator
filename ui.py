@@ -1,5 +1,5 @@
 def drafts_template(i, content):
-    return f"<div class='draft'><div><b>Draft {i + 1}</b></div>{content['content']}</div>"
+    return f"<div class='draft'><div><b>Draft {i + 1}</b></div>{content}</div>"
 
 def grades_template(score, explanation, is_winner):
     class_name = 'winner' if is_winner else ''

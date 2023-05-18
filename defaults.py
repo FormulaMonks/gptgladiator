@@ -11,10 +11,10 @@ refactor_code = """refactor the following code and explain why you did so. Think
     )
 """
 
-second = """2nd
+second = """What are the benefits and drawbacks of remote work? 
 """
 
-third = """3rd
+third = """Write a short story set in a post-apocalyptic world.
 """
 
 

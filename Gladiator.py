@@ -1,18 +1,16 @@
 import concurrent.futures
 import os
-from distutils.util import strtobool
+import prompts
+import json
+import ast 
+import mocks
 from typing import List, Optional, Any, Iterator
 import openai as openai
 from gpt_model import GptModel
-import prompts
-import json
 from ChatBot import ChatBot
-import ast 
-import mocks
 
-class GladiatorService():
-    debug = strtobool(os.environ.get('DEBUG', 'False'))
-    mock_api = strtobool(os.environ.get('MOCK_API', 'False'))
+
+class Gladiator():
     mock_responses = False
     mock_grades = False
 
@@ -23,46 +21,42 @@ class GladiatorService():
         self.n = 3
 
 
-    def process(self, prompt):
-        chatbot = ChatBot(self.generate_model, [])
-        chatbot.run(prompt)
-        return chatbot.messages[-1]
+    def process(self, tuple):
+        i, prompt = tuple
+        temperature = 1-i*.1
+        print("temperature = ", temperature)
+        chatbot = ChatBot(self.generate_model, temperature=temperature, messages=[])
+        response = chatbot.get_completion(prompt)
+        return response
 
 
     def concurrent_requests(self, prompts, max_active_tasks=10) -> Iterator[Any]:
         max_active_tasks = len(prompts) if len(prompts) < max_active_tasks else max_active_tasks
         with concurrent.futures.ThreadPoolExecutor(max_workers=max_active_tasks) as executor:
-            results = executor.map(self.process, prompts)
+            results = executor.map(self.process, enumerate(prompts))
         return list(results)
 
 
     def generate_drafts(self, prompt):
         print(f"running: {self.n} times")
         prompts = [prompt] * self.n
-        self.drafts = self.concurrent_requests(prompts) if not self.mock_responses else mocks.mock_responses
-        #print("drafts = ", self.drafts)
-        return self.drafts
+        drafts = self.concurrent_requests(prompts) if not self.mock_responses else mocks.mock_responses
+        print("drafts = ", drafts)
+        return drafts
 
 
-    def grade_drafts(self):
-        gradingbot = ChatBot(self.grade_model)
-
-        if self.mock_grades:
-            response = mocks.mock_grades
-        else:
-            gradingbot.run(prompts.make_grading_prompt(self.drafts))  
-            response =  gradingbot.messages[-1]['content'] 
-
+    def grade_drafts(self, drafts):
+        gradingbot = ChatBot(self.grade_model, messages=[])
+        response = gradingbot.get_completion(prompts.make_grading_prompt(drafts)) if not self.mock_grades else mocks.mock_grades
         grades_json = parse_json(response)
-        #print("grades = ", grades_json)
-        
+        print("grades = ", grades_json)
         return grades_json
 
 
-    def select_winner(self, grades_json):
+    def select_winner(self, drafts, grades_json):
         winning_index = max(range(len(grades_json)), key=lambda i: grades_json[i]['score'])
         print("winning_index = ", winning_index)
-        winning_content = self.drafts[winning_index]['content']
+        winning_content = drafts[winning_index]
         #print("winning content = ", winning_content)
         return winning_index, winning_content
     
@@ -70,7 +64,7 @@ class GladiatorService():
     def run(self, prompt: str):
         drafts = self.generate_drafts(prompt)
         grades_in_json = self.grade_drafts(drafts)
-        winning_index, winning_content = self.select_winner(grades_in_json)
+        winning_index, winning_content = self.select_winner(drafts, grades_in_json)
         return winning_content
 
 

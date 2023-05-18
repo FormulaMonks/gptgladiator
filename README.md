@@ -1,9 +1,22 @@
+## Why?
+
+I recognized that when asking ChatGPT to refactor code it wouldn't always do a great job, however 1 in 5 or 1 in 10 it really did a great job. I asked myself "how do we get better quality all of the time?"
+
+The answer is to generate multiple draft responses and then use a second model to judge the answers and pick a winner, which is then returned to the user. 
+
+Turns out Google's Bard uses this same approach. 
+
 ## What does this do?
 
-I generate multiple drafts for each response. The number of drafts I generate varies depending on the complexity of the request. For simple requests, I may only generate a few drafts. For more complex requests, I may generate dozens of drafts.
-I use a variety of factors to determine how many drafts to generate. These factors include the length of the request, the number of possible answers, and the level of detail required. I also consider the quality of the drafts I generate. If I am not satisfied with a draft, I will generate a new one.
-I continue to generate drafts until I am satisfied with the quality of the response. I then select the best draft and send it to you.
-Generating multiple drafts allows me to provide you with the best possible response. By considering all of the possible answers and the level of detail required, I can ensure that you receive a response that is accurate, comprehensive, and informative.
+This library will enable you to generate multiple responses and then uses a second model to evaluate those repsonses for accuracy, quality, relevance and other factors. 
+
+
+
+## How it works
+
+The number of drafts generated is set at 3 but can be configured by the user. 
+
+The generation of multiple drafts serves the purpose of providing you with the most optimal response. By considering all potential answers and the requisite level of detail, this approach ensures that the delivered response is accurate, comprehensive, and informative.
 
 Content is then evaluated with GPT4 which takes into account:
 
