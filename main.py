@@ -38,9 +38,8 @@ if st.button("Generate best answer"):
         with st.spinner("Grading Drafts..."):
             columns = st.columns(3)
             for i, column in enumerate(columns):
-                print("here", drafts[i])
+                print(f"Draft {i} =", drafts[i])
                 draft_template = drafts_template(i, drafts[i])
-                print(draft_template)
                 with column:
                     st.markdown(draft_template, unsafe_allow_html=True)
 

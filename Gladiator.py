@@ -41,7 +41,7 @@ class Gladiator():
         print(f"running: {self.n} times")
         prompts = [prompt] * self.n
         drafts = self.concurrent_requests(prompts) if not self.mock_responses else mocks.mock_responses
-        print("drafts = ", drafts)
+        #print("drafts = ", drafts)
         return drafts
 
 

@@ -31,8 +31,14 @@ def make_grading_prompt(input):
         and, 100 means your confidence is very high or the reply is well-known.
             "explanation": //A short explanation about your reasoning. Keep it under 100 words when possible.
         }},
-        //2nd item goes here... etc.
+        {{
+            "score": ,//for item 2
+            "explanation": //of your score for item 2
+        }},
+        //3rd item goes here... etc.
     }}
+
+    Do not generate
     '''
 
 
