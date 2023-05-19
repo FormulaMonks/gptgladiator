@@ -5,11 +5,20 @@ from gladiator.GPTModel import GptModel
 
 class ChatBot:
     def __init__(self, model: GptModel, temperature=1, messages=[]):
+        """
+        Initialize a `ChatBot` with a given `model` and `temperature`.
+
+        This is a convenience abstraction over OpenAI's Chat API. It allows
+        us to easily send messages to a chatbot and get responses back.
+        """
         self.model = model
         self.messages = messages
         self.temperature = temperature
 
     def get_completion(self, prompt):
+        """
+        Get a completion from the `model` using the given `prompt`.
+        """
         self.messages.append({"role": "user", "content": prompt})
 
         current_tokens_used = self.count_total_tokens_in_messages(
@@ -35,9 +44,15 @@ class ChatBot:
             print("Error in chatbot: ", e)
 
     def count_total_tokens_in_messages(self, messages) -> int:
+        """
+        Count the total number of tokens in the given `messages`.
+        """
         return sum(self.num_tokens_from_string(message) for message in messages)
 
     def num_tokens_from_string(self, string: str) -> int:
+        """
+        Count the number of tokens in the given `string`.
+        """
         encoding = tiktoken.encoding_for_model(self.model.name)
         num_tokens = len(encoding.encode(str(string)))
         return num_tokens
