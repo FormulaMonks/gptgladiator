@@ -1,8 +1,23 @@
+.env
+
+# Python-related
+__pycache__/
 venv/
 *.pyc
-__pycache__/
 .pytest_cache/
-.env
-.vscode/
+*.pyc
+*.pyo
+*.pyd
+*.pyi
+*.egg-info/
 dist/
-gladiator.egg-info/
+build/
+*.egg
+*.whl
+
+# IDE-specific
+.vscode/
+.idea/
+
+# Miscellaneous
+*.log
