@@ -9,7 +9,7 @@ setup(
         'tiktoken==0.3.3',
         'streamlit==1.22.0'
     ],
-    py_modules=['Gladiator'],
+    py_modules=['gladiator'],
     author='Will Jessup',
     author_email='Will@theoremone.co',
     description='Generate multiple draft responses and then use a second model to judge the answers and pick a winner, which is then returned to the user.',
