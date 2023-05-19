@@ -38,7 +38,7 @@ class Gladiator():
 
 
     def generate_drafts(self, prompt):
-        print(f"running: {self.n} times")
+        print(f"running: {self.n} times with prompt: {prompt}")
         prompts = [prompt] * self.n
         drafts = self.concurrent_requests(prompts) if not self.mock_responses else mocks.mock_responses
         #print("drafts = ", drafts)
