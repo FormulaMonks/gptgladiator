@@ -1,6 +1,6 @@
 ## Problem: 
 
-I want better quality, more factual, more accurate responses
+You can't always rely on LLM's to give you great answers everytime. They hallucinate, make stuff up, etc.
 
 ## Solution: 
 
@@ -8,10 +8,11 @@ Generate multiple draft responses and then use a second model to judge the answe
 
 <img src="graphic.png">
 
-## What does this do?
+## Streamlit UI:
 
-This library will enable you to generate multiple responses and then uses a second model to evaluate those repsonses for accuracy, quality, relevance and other factors. 
+We provide a [streamlit UI demo](https://theoremone-gladiator-streamlit-ui-4e4ons.streamlit.app/) to test it out yourself. 
 
+<img src="demo.gif" width="1200px">
 
 ## How it works
 
@@ -33,12 +34,6 @@ The relevance of the information to the request.
 The clarity and conciseness of the writing.
 The creativity and engagement of the writing.
 ```
-
-## Streamlit UI:
-
-We provide a [streamlit UI demo](https://theoremone-gladiator-streamlit-ui-4e4ons.streamlit.app/) to test it out yourself. 
-
-<img src="demo.gif" width="1200px">
 
 ## How to use it:
 
