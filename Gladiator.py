@@ -48,6 +48,7 @@ class Gladiator():
     def grade_drafts(self, drafts):
         gradingbot = ChatBot(self.grade_model, messages=[])
         response = gradingbot.get_completion(prompts.make_grading_prompt(drafts)) if not self.mock_grades else mocks.mock_grades
+        print("response to parse to json = ", response)
         grades_json = parse_json(response)
         print("grades = ", grades_json)
         return grades_json
