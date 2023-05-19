@@ -1,7 +1,7 @@
 import streamlit as st
 import defaults
 import os
-from Gladiator import Gladiator
+from gladiator.Gladiator import Gladiator
 from ui import stylesheet, drafts_template, grades_template
 
 st.set_page_config(layout="wide")

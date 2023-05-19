@@ -1,5 +1,5 @@
 import concurrent.futures
-import prompts
+import gladiator.prompts as prompts
 import json
 import ast 
 import mocks

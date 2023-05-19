@@ -1,6 +1,6 @@
 import openai
 import tiktoken
-from GPTModel import GptModel
+from gladiator.GPTModel import GptModel
 
 class ChatBot:
     def __init__(self, model: GptModel, temperature=1, messages=[]):
