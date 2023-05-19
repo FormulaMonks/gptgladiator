@@ -4,7 +4,7 @@ from gladiator.GPTModel import GptModel
 
 
 class ChatBot:
-    def __init__(self, model: GptModel, temperature=1, messages=[]):
+    def __init__(self, model: GptModel, temperature=1, messages=[], debug_output=False):
         """
         Initialize a `ChatBot` with a given `model` and `temperature`.
 
@@ -14,6 +14,7 @@ class ChatBot:
         self.model = model
         self.messages = messages
         self.temperature = temperature
+        self.debug_output = debug_output
 
     def get_completion(self, prompt):
         """
@@ -25,9 +26,10 @@ class ChatBot:
             self.messages)
         response_tokens = self.model.tokens - current_tokens_used
 
-        print(f"Token limit: {self.model.tokens}")
-        print(f"Send Token Count: {current_tokens_used}")
-        print(f"Tokens remaining for response: {response_tokens}")
+        if self.debug_output:
+            print(f"Token limit: {self.model.tokens}")
+            print(f"Send Token Count: {current_tokens_used}")
+            print(f"Tokens remaining for response: {response_tokens}")
 
         if response_tokens < 1000:
             raise ValueError(
@@ -41,7 +43,8 @@ class ChatBot:
             )
             return response.choices[0].message.content.strip()
         except Exception as e:
-            print("Error in chatbot: ", e)
+            if self.debug_output:
+                print("Error in chatbot: ", e)
 
     def count_total_tokens_in_messages(self, messages) -> int:
         """
