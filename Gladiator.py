@@ -11,8 +11,8 @@ from ChatBot import ChatBot
 
 
 class Gladiator():
-    mock_responses = True
-    mock_grades = True
+    mock_responses = False
+    mock_grades = False
 
     def __init__(self):
         openai.api_key = os.environ.get('OPENAI_API_KEY')
