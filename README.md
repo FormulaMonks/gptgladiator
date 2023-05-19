@@ -13,11 +13,6 @@ Generate multiple draft responses and then use a second model to judge the answe
 This library will enable you to generate multiple responses and then uses a second model to evaluate those repsonses for accuracy, quality, relevance and other factors. 
 
 
-<video controls autoplay muted loop>
-  <source src="gladiator-demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
 ## How it works
 
 The number of drafts generated is set at 3 but can be configured by the user. 
@@ -38,6 +33,12 @@ The relevance of the information to the request.
 The clarity and conciseness of the writing.
 The creativity and engagement of the writing.
 ```
+
+## Streamlit UI:
+
+We provide a [streamlit UI demo](https://theoremone-gladiator-streamlit-ui-4e4ons.streamlit.app/) to test it out yourself. 
+
+<img src="demo.gif" width="1200px">
 
 ## How to use it:
 
