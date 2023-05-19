@@ -1,5 +1,12 @@
 def drafts_template(i, content):
-    return f"<div class='draft'><div><b>Draft {i + 1}</b></div>{content}</div>"
+    return f"""
+        <div class='draft'>
+            <div>
+                <b>Draft {i + 1}</b>
+            </div>
+            <div class='draft-content'>{content}</div>
+        </div>
+    """
 
 def grades_template(score, explanation, is_winner):
     class_name = 'winner' if is_winner else ''
@@ -13,6 +20,10 @@ stylesheet = """
     border-radius: 8px; 
     background-color: #f2f2f2; 
     margin: 5px;
+}
+.draft-content {
+    max-height: 200px;
+    overflow-y: auto;
 }
 .score {
     padding: 10px;
