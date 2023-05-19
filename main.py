@@ -49,7 +49,7 @@ if st.button("Generate best answer"):
 
         for i, column in enumerate(columns):
             is_winner = i == winning_index
-            grade_template = grades_template(grades_json[i]['score'], grades_json[i]['explanation'], is_winner)
+            grade_template = grades_template(grades_json[str(i+1)]['score'], grades_json[str(i+1)]['explanation'], is_winner)
             with column:
                 st.markdown(grade_template, unsafe_allow_html=True)
 

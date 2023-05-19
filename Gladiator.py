@@ -55,7 +55,7 @@ class Gladiator():
 
 
     def select_winner(self, drafts, grades_json):
-        winning_index = max(range(len(grades_json)), key=lambda i: grades_json[i]['score'])
+        winning_index = max(range(len(grades_json)), key=lambda i: int(grades_json[str(i + 1)]['score']))
         print("winning_index = ", winning_index)
         winning_content = drafts[winning_index]
         #print("winning content = ", winning_content)

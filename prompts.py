@@ -25,20 +25,19 @@ def make_grading_prompt(input):
 
 
     Return your response with Valid, properly escaped JSON only, with this format and 1 item per each item reviewed. It means if there are 3 items to be graded the repsonse needs 3 items with grades:
+
     {{
-        {{
+      "1": {{
             "score": ,//The score field is the score for each answer between 1 and 100. 1 means your confidence on the score you provided is very low, the reply is unknown or uncertain. No two scores can be the same. Two items cannot both be scored 100.
         and, 100 means your confidence is very high or the reply is well-known.
             "explanation": //A short explanation about your reasoning. Keep it under 100 words when possible.
-        }},
-        {{
-            "score": ,//for item 2
-            "explanation": //of your score for item 2
-        }},
-        //3rd item goes here... etc.
+      }},
+      "2": {{
+          "score": ,//for item 2
+          "explanation": //of your score for item 2
+      }},
+      // and so on for items 3 and beyond...
     }}
-
-    Do not generate
     '''
 
 

@@ -5,19 +5,19 @@ mock_responses = [
 ]
 
 mock_grades = """
-[
-    {      
-        "score": 100,     
-        "explanation": "The refactored code is accurate, concise, and uses the right methods (`Promise.all()` and `every()`). It also provides a clear explanation of how the code works."\n   
-    },   
-    {
-        "score": 90,        
-        "explanation": "This answer also provides a correct refactored code, but the changes mentioned are already present in the first response, so it has a slightly lower score than the first one."\n    
-    },    
-    {        
-        "score": 40,
-        "explanation": "This answer doesn\'t provide a refactored code but outlines a possible change that could be made. It is not as helpful as the first two responses."\n    
+{
+    "1": {
+        "score": 95,
+        "explanation": "This response provided a comprehensive and clear refactoring of the code with proper explanations for each change. It improved code readability and maintainability, organizing the code in a better way. It accurately fulfilled the request."
+    },
+    "2": {
+        "score": 85,
+        "explanation": "This response provided a proper refactoring of the code, with improvements like extracting the user service and renaming the function. It also added comments to explain the code. However, it was less comprehensive than the first one and didn't mention using every() method instead of reduce()."
+    },
+    "3": {
+        "score": 80,
+        "explanation": "This response provided a good refactoring, with clear improvements such as renaming the function and using every() method. However, it was not as comprehensive as the first one, and provided fewer improvements than the second one, reconsidering extracting service id for increased reusability."
     }
-]
+}
 """
     
