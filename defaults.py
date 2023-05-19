@@ -1,4 +1,4 @@
-refactor_code = """refactor the following code and explain why you did so. Think out loud.:
+refactor_code = """Refactor the following code and explain why you did so. Think out loud.:
 
     const checkUserProfilesComplete = async (userIds) =>
     (
@@ -11,11 +11,8 @@ refactor_code = """refactor the following code and explain why you did so. Think
     )
 """
 
-second = """What are the benefits and drawbacks of remote work? 
+second = """What are the benefits and drawbacks of remote work?
 """
 
 third = """Write a short story set in a post-apocalyptic world.
 """
-
-
-

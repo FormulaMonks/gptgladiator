@@ -11,7 +11,8 @@ st.write("This is a demo of the gladiator library. It will generate multiple dra
 
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-    option = st.selectbox('(optional) Choose an example prompt...',('- select -', 'Refactor Code', 'second', 'third'))
+    option = st.selectbox('(optional) Choose an example prompt...',
+                          ('- select -', 'Refactor Code', 'second', 'third'))
 
 if option == 'Refactor Code':
     example = defaults.refactor_code
@@ -19,10 +20,11 @@ elif option == 'second':
     example = defaults.second
 elif option == 'third':
     example = defaults.third
-else: 
+else:
     example = 'enter your prompt...'
 
-prompt = st.text_area("Enter a prompt and get the best answer...", example, height=300)
+prompt = st.text_area(
+    "Enter a prompt and get the best answer...", example, height=300)
 columns = []
 drafts = []
 
@@ -30,7 +32,7 @@ if st.button("Generate best answer"):
     gladiator = Gladiator(api_key=os.environ.get('OPENAI_API_KEY'))
     try:
         with st.spinner("Generating Drafts..."):
-            drafts = gladiator.generate_drafts(prompt) 
+            drafts = gladiator.generate_drafts(prompt)
 
         with st.spinner("Grading Drafts..."):
             columns = st.columns(3)
@@ -40,13 +42,15 @@ if st.button("Generate best answer"):
                 with column:
                     st.markdown(draft_template, unsafe_allow_html=True)
 
-            grades_json = gladiator.grade_drafts(drafts) 
+            grades_json = gladiator.grade_drafts(drafts)
 
-        winning_index, winning_content = gladiator.select_winner(drafts, grades_json)
+        winning_index, winning_content = gladiator.select_winner(
+            drafts, grades_json)
 
         for i, column in enumerate(columns):
             is_winner = i == winning_index
-            grade_template = grades_template(grades_json[str(i+1)]['score'], grades_json[str(i+1)]['explanation'], is_winner)
+            grade_template = grades_template(
+                grades_json[str(i+1)]['score'], grades_json[str(i+1)]['explanation'], is_winner)
             with column:
                 st.markdown(grade_template, unsafe_allow_html=True)
 
@@ -57,9 +61,3 @@ if st.button("Generate best answer"):
     except Exception as e:
         print("Error: ", e)
         st.error("An error occurred: {}".format(str(e)))
-
-
-
-
-
-

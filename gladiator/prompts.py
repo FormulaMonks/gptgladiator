@@ -1,16 +1,13 @@
-
-
 def make_grading_prompt(input):
-
     return f'''
-    Your previously generated these respones: {input}
+    You previously generated these respones: {input}
 
     Evaluate the above responses using the following logic:
 
     - Pick the best answer considering how well does it fit the original prompt
     - Assign a score to the one you selected as the best answer
-    - Then grade the other answers with a score relative the one with the best score 
-    
+    - Then grade the other answers with a score relative the one with the best score
+
     Take into account:
     It is accurate and factual.
     It is comprehensive and informative.
@@ -39,6 +36,3 @@ def make_grading_prompt(input):
       // and so on for items 3 and beyond...
     }}
     '''
-
-
-
