@@ -12,6 +12,7 @@ from gladiator.ChatBot import ChatBot
 class Gladiator():
     mock_responses = False
     mock_grades = False
+    debug_output = False
 
     def __init__(self, api_key, num_drafts=3):
         """
@@ -24,6 +25,9 @@ class Gladiator():
         To test the gladiator without using OpenAI, set the `mock_responses`
         and `mock_grades` attributes to `True`. This will cause the gladiator
         to use the data in the `mocks` module instead of using OpenAI's API.
+
+        To see extra debug output (including underlying errors if they occur)
+        printed to the console, set the `debug_output` attribute to `True`.
         """
         openai.api_key = api_key
         self.generate_model = GptModel('gpt-3.5-turbo', 4000)
@@ -65,10 +69,13 @@ class Gladiator():
         This is part of what the `run` method does, but you can call this
         method directly if you want to see the drafts before grading them.
         """
-        print(f"running: {self.num_drafts} times with prompt: {prompt}")
+        if self.debug_output:
+            print(f"running: {self.num_drafts} times with prompt: {prompt}")
+
         prompts = [prompt] * self.num_drafts
         drafts = self._concurrent_requests(
             prompts) if not self.mock_responses else mocks.mock_responses
+
         self.drafts = drafts
         return drafts
 
@@ -80,13 +87,20 @@ class Gladiator():
         method directly if you want to see the grades before selecting a winner,
         or if you want to supply the drafts yourself.
         """
-        gradingbot = ChatBot(self.grade_model, messages=[])
+        gradingbot = ChatBot(self.grade_model, messages=[],
+                             debug_output=self.debug_output)
         response = gradingbot.get_completion(prompts.make_grading_prompt(
             drafts)) if not self.mock_grades else mocks.mock_grades
-        print("response to parse to json = ", response)
+
+        if self.debug_output:
+            print("response to parse to json = ", response)
+
         grades_json = parse_json(response)
         self.grades = grades_json
-        print("grades = ", grades_json)
+
+        if self.debug_output:
+            print("grades = ", grades_json)
+
         return grades_json
 
     def select_winner(self, drafts, grades_json):
@@ -98,7 +112,10 @@ class Gladiator():
         """
         winning_index = max(range(len(grades_json)), key=lambda i: int(
             grades_json[str(i + 1)]['score']))
-        print("winning_index = ", winning_index)
+
+        if self.debug_output:
+            print("winning_index = ", winning_index)
+
         winning_content = drafts[winning_index]
         return winning_index, winning_content
 
@@ -108,9 +125,12 @@ class Gladiator():
         """
         i, prompt = tuple
         temperature = 1-i*.1
-        print("temperature = ", temperature)
-        chatbot = ChatBot(self.generate_model,
-                          temperature=temperature, messages=[])
+
+        if self.debug_output:
+            print("temperature = ", temperature)
+
+        chatbot = ChatBot(self.generate_model, temperature=temperature,
+                          messages=[], debug_output=self.debug_output)
         response = chatbot.get_completion(prompt)
         return response
 
