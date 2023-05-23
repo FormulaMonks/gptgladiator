@@ -34,6 +34,9 @@ The relevance of the information to the request.
 The clarity and conciseness of the writing.
 The creativity and engagement of the writing.
 ```
+## Token usage warning
+
+This will use a lot of tokens. For example to generate 3 drafts, you are at 3x + you need to feed those drafts into another prompt + get that response, so >7x.
 
 ## How to use it:
 
