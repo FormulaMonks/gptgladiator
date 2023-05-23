@@ -1,7 +1,7 @@
-from Gladiator import Gladiator
+from gladiator.Gladiator import Gladiator
 import os
 
-gladiator = Gladiator(n=3, api_key=os.environ.get('OPENAI_API_KEY'))
+gladiator = Gladiator(num_drafts=3, api_key=os.environ.get('OPENAI_API_KEY'))
 winner = gladiator.run("what is a hotdog?")
 print("winner = ", winner)
 
