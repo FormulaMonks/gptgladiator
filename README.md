@@ -69,13 +69,13 @@ print("grades generated = ", gladiator.grades)
 Clone this repo:
 
 ```shell
-$ git clone https://github.com/TheoremOne/gladiator.git
+$ git clone https://github.com/TheoremOne/gptgladiator.git
 ```
 
 Navigate to the directory where the sources where cloned to:
 
 ```shell
-$ cd gladiator
+$ cd gptgladiator
 ```
 
 Create and activate a python virtual environment:
