@@ -10,7 +10,7 @@ Generate multiple draft responses and then use a second model to judge the answe
 
 ## Streamlit UI:
 
-We provide a [streamlit UI demo](https://theoremone-gladiator-streamlit-ui-4e4ons.streamlit.app/) to test it out yourself.
+We provide a [streamlit UI demo](https://theoremone-gptgladiator-streamlit-ui-5ljwmm.streamlit.app/) to test it out yourself.
 
 <img src="demo.gif" width="1200px">
 
@@ -55,7 +55,6 @@ print("winner = ", winner)
 print("drafts generated = ", gladiator.drafts)
 
 print("grades generated = ", gladiator.grades)
-
 ```
 
 ### Prerequisites
