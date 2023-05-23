@@ -1,6 +1,6 @@
 import openai
 import tiktoken
-from gladiator.GPTModel import GptModel
+from gptgladiator.GPTModel import GptModel
 
 
 class ChatBot:

@@ -1,12 +1,12 @@
 import concurrent.futures
 import json
 import ast
-from gladiator import prompts
-from gladiator import mocks
+from gptgladiator import prompts
+from gptgladiator import mocks
 from typing import Any, Iterator
 import openai as openai
-from gladiator.GPTModel import GptModel
-from gladiator.ChatBot import ChatBot
+from gptgladiator.GPTModel import GptModel
+from gptgladiator.ChatBot import ChatBot
 
 
 class Gladiator():
