@@ -37,10 +37,18 @@ The creativity and engagement of the writing.
 
 ## How to use it:
 
-```python
-from Gladiator import Gladiator
+First run:
 
-gladiator = Gladiator(n=3, api_key="your key here")
+```shell
+pip install gptgladiator
+```
+
+Then use in your code as follows:
+
+```python
+from gptgladiator import Gladiator
+
+gladiator = Gladiator(num_drafts=3, api_key="your key here")
 winner = gladiator.run("what is a hotdog?")
 print("winner = ", winner)
 
@@ -49,8 +57,6 @@ print("drafts generated = ", gladiator.drafts)
 print("grades generated = ", gladiator.grades)
 
 ```
-
-## Quick start guide
 
 ### Prerequisites
 
