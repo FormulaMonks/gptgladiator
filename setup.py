@@ -7,7 +7,7 @@ setup(
     install_requires=[
         'openai==0.27.6',
         'tiktoken==0.3.3',
-        'streamlit==1.22.0'
+        'streamlit==1.30.0'
     ],
     py_modules=['gptgladiator'],
     author='Will Jessup',
